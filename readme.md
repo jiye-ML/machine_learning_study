@@ -1,1 +1,1 @@
-### knnk近邻相关的一些算法
+### 机器学习相关基础知识> 参考周志华 《机器学习》 ### reference* [周志华机器学习书籍课后答案](https://blog.csdn.net/snoopy_yuan/article/details/64921495)* [周志华机器学习书籍课后题代码](https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model)
