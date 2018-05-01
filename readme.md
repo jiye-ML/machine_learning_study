@@ -1,1 +1,1 @@
-### 机器学习相关基础知识> 参考周志华 《机器学习》 ### reference* [周志华机器学习书籍课后答案](https://blog.csdn.net/snoopy_yuan/article/details/64921495)* [周志华机器学习书籍课后题代码](https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model)
+### 机器学习相关基础知识> 参考周志华 《机器学习》 * 配合《python大战机器学习》， 效果更佳### reference* [周志华机器学习书籍课后答案](https://blog.csdn.net/snoopy_yuan/article/details/64921495)* [周志华机器学习书籍课后题代码](https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model)* [python大战机器学习](https://github.com/huaxz1986/git_book/tree/master/chapters/Linear)
