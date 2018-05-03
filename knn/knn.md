@@ -1,1 +1,0 @@
-### knn* [k-mean方法初探](http://blog.csdn.net/skyline0623/article/details/8154911)* 
