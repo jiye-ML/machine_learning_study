@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/ch3_linear_model/3.3_logistic_regression_watermelon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/linear_model/3.5_LDA/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/decision_tree/4.3_ID3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cluster" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

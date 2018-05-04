@@ -19,7 +19,6 @@ def test_PCA(*data):
     '''
     函数： sklearn.decomposition.PCA(n_components=None, copy=True, whiten=False)
     参数: n_compoents： 指定降维后的维度， 如果None，使用min(n_samples, n_features)
-    
     '''
     X,y=data
     pca=decomposition.PCA(n_components=None) # 使用默认的 n_components
