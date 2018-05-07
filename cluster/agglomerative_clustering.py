@@ -19,6 +19,7 @@ def test_AgglomerativeClustering(*data):
     clst=cluster.AgglomerativeClustering()
     predicted_labels=clst.fit_predict(X)
     print("ARI:%s"% adjusted_rand_score(labels_true,predicted_labels))
+
 def test_AgglomerativeClustering_nclusters(*data):
     '''
     测试 AgglomerativeClustering 的聚类结果随 n_clusters 参数的影响
@@ -42,6 +43,7 @@ def test_AgglomerativeClustering_nclusters(*data):
     ax.set_ylabel("ARI")
     fig.suptitle("AgglomerativeClustering")
     plt.show()
+
 def test_AgglomerativeClustering_linkage(*data):
     '''
     测试 AgglomerativeClustering 的聚类结果随链接方式的影响

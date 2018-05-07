@@ -7,7 +7,6 @@ from sklearn.metrics import adjusted_rand_score
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def test_DBSCAN(*data):
     '''
     测试 DBSCAN 的用法
