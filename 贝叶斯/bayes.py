@@ -1,5 +1,8 @@
 '''
+整个过程基于贝叶斯公式构建，计算两类中，每个类别的概率，
+计算每个单词在属于该类别的情况下，出现了几次，
 
+对于新来的一篇文章，计算两个 p(x, y|ci) ，看那个大就属于哪一类；
 '''
 from numpy import *
 
@@ -48,7 +51,7 @@ def trainNB0(trainMatrix, trainCategory):
     numWords = len(trainMatrix[0])
     # 一个样本是类别1的概率
     pAbusive = sum(trainCategory) / float(numTrainDocs)
-    # 没个词出现了几次
+    # 每个词出现了几次
     p0Num = ones(numWords)
     p1Num = ones(numWords)  # change to ones()
     # 每篇文章出现了多少词
@@ -107,42 +110,49 @@ def testingNB():
     print(testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb))
     pass
 
-
-
-def textParse(bigString):  # input is big string, #output is word list
+# 输入一个字符串，输出单词列表
+def textParse(bigString):
     import re
+    # 分割符是除了字母和数字的任何字符
     listOfTokens = re.split(r'\W*', bigString)
     return [tok.lower() for tok in listOfTokens if len(tok) > 2]
 
-
+# 示例： 测试邮件
 def spamTest():
-    docList = [];
-    classList = [];
+    docList = []
+    classList = []
     fullText = []
     for i in range(1, 26):
-        wordList = textParse(open('email/spam/%d.txt' % i).read())
+        # 垃圾邮件
+        wordList = textParse(open('email/spam/{}.txt'.format(i)).read())
         docList.append(wordList)
         fullText.extend(wordList)
         classList.append(1)
-        wordList = textParse(open('email/ham/%d.txt' % i).read())
+        # 普通邮件
+        wordList = textParse(open('email/ham/{}.txt'.format(i)).read())
         docList.append(wordList)
         fullText.extend(wordList)
         classList.append(0)
-    vocabList = createVocabList(docList)  # create vocabulary
-    trainingSet = range(50);
+    # create vocabulary
+    vocabList = createVocabList(docList)
+    # 分割训练集和测试集
+    trainingSet = [i for i in range(50)]
     testSet = []  # create test set
     for i in range(10):
         randIndex = int(random.uniform(0, len(trainingSet)))
         testSet.append(trainingSet[randIndex])
         del (trainingSet[randIndex])
-    trainMat = [];
+    # 训练
+    trainMat = []
     trainClasses = []
-    for docIndex in trainingSet:  # train the classifier (get probs) trainNB0
+    for docIndex in trainingSet:
         trainMat.append(bagOfWords2VecMN(vocabList, docList[docIndex]))
         trainClasses.append(classList[docIndex])
     p0V, p1V, pSpam = trainNB0(array(trainMat), array(trainClasses))
     errorCount = 0
-    for docIndex in testSet:  # classify the remaining items
+
+    # 测试
+    for docIndex in testSet:
         wordVector = bagOfWords2VecMN(vocabList, docList[docIndex])
         if classifyNB(array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
             errorCount += 1
@@ -222,7 +232,6 @@ def getTopWords(ny, sf):
 
 
 if __name__ == '__main__':
-
-    testingNB()
+    spamTest()
 
     pass
