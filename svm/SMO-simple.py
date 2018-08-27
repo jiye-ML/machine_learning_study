@@ -29,7 +29,7 @@ def loadDataSet(fileName):
 
 def selectJrand(i, m):
     """
-    随机选择一个整数
+    随机选择第二个Alpha
     Args:
         i  第一个alpha的下标
         m  所有alpha的数目
@@ -95,7 +95,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
             # print('labelMat=', labelMat)
             # print('multiply(alphas, labelMat)=', multiply(alphas, labelMat))
             # 我们预测的类别 y = w^Tx[i]+b; 其中因为 w = Σ(1~n) a[n]*lable[n]*x[n]
-            fXi = float(multiply(alphas, labelMat).T*(dataMatrix*dataMatrix[i, :].T)) + b
+            fXi = float(multiply(alphas, labelMat).T * (dataMatrix * dataMatrix[i, :].T)) + b
             # 预测结果与真实结果比对，计算误差Ei
             Ei = fXi - float(labelMat[i])
 
@@ -108,12 +108,12 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
             yi*f(i) == 1 and 0<alpha< C (on the boundary)
             yi*f(i) <= 1 and alpha = C (between the boundary)
             '''
-            if ((labelMat[i]*Ei < -toler) and (alphas[i] < C)) or ((labelMat[i]*Ei > toler) and (alphas[i] > 0)):
+            if ((labelMat[i] * Ei < -toler) and (alphas[i] < C)) or ((labelMat[i] * Ei > toler) and (alphas[i] > 0)):
 
                 # 如果满足优化的条件，我们就随机选取非i的一个点，进行优化比较
                 j = selectJrand(i, m)
                 # 预测j的结果
-                fXj = float(multiply(alphas, labelMat).T*(dataMatrix*dataMatrix[j, :].T)) + b
+                fXj = float(multiply(alphas, labelMat).T * (dataMatrix * dataMatrix[j, :].T)) + b
                 Ej = fXj - float(labelMat[j])
                 alphaIold = alphas[i].copy()
                 alphaJold = alphas[j].copy()
@@ -133,13 +133,16 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
 
                 # eta是alphas[j]的最优修改量，如果eta==0，需要退出for循环的当前迭代过程
                 # 参考《统计学习方法》李航-P125~P128<序列最小最优化算法>
-                eta = 2.0 * dataMatrix[i, :]*dataMatrix[j, :].T - dataMatrix[i, :]*dataMatrix[i, :].T - dataMatrix[j, :]*dataMatrix[j, :].T
+                eta = 2.0 * dataMatrix[i, :] * dataMatrix[j, :].T - dataMatrix[i, :] * dataMatrix[i, :].T - dataMatrix[
+                                                                                                            j,
+                                                                                                            :] * dataMatrix[
+                                                                                                                 j, :].T
                 if eta >= 0:
                     print("eta>=0")
                     continue
 
                 # 计算出一个新的alphas[j]值
-                alphas[j] -= labelMat[j]*(Ei - Ej)/eta
+                alphas[j] -= labelMat[j] * (Ei - Ej) / eta
                 # 并使用辅助函数，以及L和H对其进行调整
                 alphas[j] = clipAlpha(alphas[j], H, L)
                 # 检查alpha[j]是否只是轻微的改变，如果是的话，就退出for循环。
@@ -147,19 +150,33 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     print("j not moving enough")
                     continue
                 # 然后alphas[i]和alphas[j]同样进行改变，虽然改变的大小一样，但是改变的方向正好相反
-                alphas[i] += labelMat[j]*labelMat[i]*(alphaJold - alphas[j])
+                alphas[i] += labelMat[j] * labelMat[i] * (alphaJold - alphas[j])
                 # 在对alpha[i], alpha[j] 进行优化之后，给这两个alpha值设置一个常数b。
                 # w= Σ[1~n] ai*yi*xi => b = yj- Σ[1~n] ai*yi(xi*xj)
                 # 所以：  b1 - b = (y1-y) - Σ[1~n] yi*(a1-a)*(xi*x1)
                 # 为什么减2遍？ 因为是 减去Σ[1~n]，正好2个变量i和j，所以减2遍
-                b1 = b - Ei- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i, :]*dataMatrix[i, :].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[i, :]*dataMatrix[j, :].T
-                b2 = b - Ej- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i, :]*dataMatrix[j, :].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[j, :]*dataMatrix[j, :].T
+                b1 = b - Ei - labelMat[i] * (alphas[i] - alphaIold) * dataMatrix[i, :] * dataMatrix[i, :].T - labelMat[
+                                                                                                                  j] * (
+                                                                                                              alphas[
+                                                                                                                  j] - alphaJold) * dataMatrix[
+                                                                                                                                    i,
+                                                                                                                                    :] * dataMatrix[
+                                                                                                                                         j,
+                                                                                                                                         :].T
+                b2 = b - Ej - labelMat[i] * (alphas[i] - alphaIold) * dataMatrix[i, :] * dataMatrix[j, :].T - labelMat[
+                                                                                                                  j] * (
+                                                                                                              alphas[
+                                                                                                                  j] - alphaJold) * dataMatrix[
+                                                                                                                                    j,
+                                                                                                                                    :] * dataMatrix[
+                                                                                                                                         j,
+                                                                                                                                         :].T
                 if (0 < alphas[i]) and (C > alphas[i]):
                     b = b1
                 elif (0 < alphas[j]) and (C > alphas[j]):
                     b = b2
                 else:
-                    b = (b1 + b2)/2.0
+                    b = (b1 + b2) / 2.0
                 alphaPairsChanged += 1
                 print("iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged))
         # 在for循环外，检查alpha值是否做了更新，如果在更新则将iter设为0后继续运行程序
@@ -215,7 +232,7 @@ def plotfig_SVM(xMat, yMat, ws, b, alphas):
     x = arange(-1.0, 10.0, 0.1)
 
     # 根据x.w + b = 0 得到，其式子展开为w0.x1 + w1.x2 + b = 0, x2就是y值
-    y = (-b-ws[0, 0]*x)/ws[1, 0]
+    y = (-b - ws[0, 0] * x) / ws[1, 0]
     ax.plot(x, y)
 
     for i in range(shape(yMat[0, :])[1]):
@@ -249,3 +266,5 @@ if __name__ == "__main__":
     # 画图
     ws = calcWs(alphas, dataArr, labelArr)
     plotfig_SVM(dataArr, labelArr, ws, b, alphas)
+
+    pass
