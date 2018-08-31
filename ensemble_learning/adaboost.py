@@ -53,7 +53,7 @@ def buildStump(dataArr,classLabels,D):
         rangeMin = dataMatrix[:,i].min(); rangeMax = dataMatrix[:,i].max()
         stepSize = (rangeMax-rangeMin)/numSteps
         # loop over all range in current dimension
-        for j in range(-1,int(numSteps) + 1):
+        for j in range(-1, int(numSteps) + 1):
             # go over less than and greater than
             for inequal in ['lt', 'gt']:
                 threshVal = (rangeMin + float(j) * stepSize)
