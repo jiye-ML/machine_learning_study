@@ -19,7 +19,7 @@
     * [统计机器学习](https://www.bilibili.com/video/av9036658/?p=16)
     * [机器学习导论-张志华](https://www.bilibili.com/video/av24365196/?p=4)
     * [张志华 机器学习 两门课程正确顺序及视频连接](https://blog.csdn.net/yuanmengxinglong/article/details/61203441)
-
+* [机器学习基石(林轩田)](https://www.bilibili.com/video/av30874988/)
 
 
 
