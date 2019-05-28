@@ -1,1 +1,0 @@
-* 本节介绍knn算法用于和knn算法的一些用途### knn* [k-mean方法初探](http://blog.csdn.net/skyline0623/article/details/8154911)* 
